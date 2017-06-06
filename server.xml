@@ -1,0 +1,46 @@
+  <Connector port="80" protocol="HTTP/1.1"
+	                 connectionTimeout="20000"
+			                redirectPort="443" />
+				    <!-- A "Connector" using the shared thread pool-->
+				        <!--
+					         <Connector executor="tomcatThreadPool"
+               port="8080" protocol="HTTP/1.1"
+               connectionTimeout="20000"
+               redirectPort="8443" />
+    -->
+    <!-- Define a SSL HTTP/1.1 Connector on port 8443
+	          This connector uses the BIO implementation that requires the JSSE
+         style configuration. When using the APR/native implementation, the
+         OpenSSL style configuration is required as described in the APR/native
+         documentation -->
+
+
+<Connector port="443" protocol="org.apache.coyote.http11.Http11Protocol" URIEncoding="UTF-8"
+	maxThreads="150" SSLEnabled="true" scheme="https" secure="true" clientAuth="false"
+	sslProtocol="TLS" keystoreFile="/home/vraiqueue/keystore.jks"
+	keystorePass="vqtest" keyAlias="vraistage" keyPass="vqtest"/>
+
+
+--------------------------------------------------------------------------------
+
+
+
+<Host name="stage1.vraiqueue.com"  appBase="webapps"
+	            unpackWARs="true" autoDeploy="true">
+
+		            <!-- SingleSignOn valve, share authentication between web applications
+				              Documentation at: /docs/config/valve.html -->
+        <!--
+	             <Valve className="org.apache.catalina.authenticator.SingleSignOn" />
+        -->
+
+        <!-- Access log processes all example.
+	                  Documentation at: /docs/config/valve.html
+             Note: The pattern used is equivalent to using pattern="common" -->
+        <Valve className="org.apache.catalina.valves.AccessLogValve" directory="logs"
+               prefix="localhost_access_log." suffix=".txt"
+               pattern="%h %l %u %t &quot;%r&quot; %s %b" />
+       <Context reloadble="true" path="" docBase="VraiQueue" ></Context>
+               <Alias>www.stage1.vraiqueue.com</Alias>
+	             </Host>
+
